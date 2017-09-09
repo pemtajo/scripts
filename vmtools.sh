@@ -1,9 +1,7 @@
+#!/bin/bash
 cp -R /media/cdrom/ /tmp/
-cd /tmp/cdrom
-tar zxpf 
+tar zxpf /tmp/cdrom/
 
-cd vmware-tools-distrib
-./vmware-install.pl
-cd
+./tmp/cdrom/vmware-tools-distrib/vmware-install.pl
 rm -R /tmp/cdrom
 
