@@ -11,11 +11,11 @@ else
 	if [ "$1" == "-noclear" ];
 	then
 		#execute .jnpl file
-		$JAVA_HOME/bin/javaws $2
+		$JAVA_HOME/javaws $2
 	else
 	  #clear temp java
-	  $JAVA_HOME/bin/javaws -viewer
+	  $JAVA_HOME/javaws -viewer
 		#execute .jnpl file
-	  $JAVA_HOME/bin/javaws $1
+	  $JAVA_HOME/javaws $1
 	fi
 fi
