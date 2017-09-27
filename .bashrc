@@ -91,6 +91,21 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
 alias em='emacs -nw'
+alias work='/home/pedro/pessoal/work/scripts/work.sh'
+alias up_ng='/home/pedro/pessoal/work/scripts/start_docker_service.sh'
+alias organize_mp3='/home/pedro/pessoal/scripts/organizemp3.py'
+alias mvn='/opt/apache/apache-maven-3.1.1/bin/mvn'
+alias pandoise='sudo pandoise &'
+alias jpatchaca='~/pessoal/scripts/jnlp.sh -noclear /opt/jpatchacabuild.jnlp'
+alias atualizar='sudo apt-get update && sudo apt-get upgrade'
+alias eclipse='sudo /opt/eclipse_luna/eclipse'
+alias criar_mvn='/home/pedro/pessoal/work/scripts/criar_mvn.sh'
+alias itsme='sudo chown -c -R pedro:root /*'
+
+# My commands
+export JAVA6_HOME=/opt/jdk/jdk1.6.0_38
+# export JAVA_HOME=/opt/jdk/jdk1.6.0_38
+export JAVA_HOME=/opt/jdk/jdk1.8.0_91
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
