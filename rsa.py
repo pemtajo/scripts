@@ -79,7 +79,7 @@ def decrypt(pk, ciphertext):
     try:
         plain = [chr(((char ** key) % n)) for char in ciphertext]
     except ValueError as error:
-        print("It's not possible decrypt this text with there number of p,q and e!")
+        print("It's not possible decrypt this text with those numbers p, q and e!")
         exit(0)
 
     return ''.join(plain)
