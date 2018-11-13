@@ -102,7 +102,8 @@ if __name__ == '__main__':
     if(options.decrypt):
         if (encrypted_msg is None):
             if(options.message is None):
-                encrypted_msg = ast.literal_eval(raw_input("Enter a message to decrypt with your private key: "))
+                text=raw_input("Enter a message to decrypt with your private key: ")
+                encrypted_msg = ast.literal_eval(text)
             else:
                 encrypted_msg = ast.literal_eval(options.message)
         print ("Decrypting message with public key ", public ," . . .")
