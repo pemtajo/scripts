@@ -15,7 +15,10 @@ class Block:
         self.hash = self.calculateHash()
 
     def calculateHash(self):
-        return hashlib.sha256(str(self.index) + self.previousHash + self.timestamp + str(self.data)).hexdigest()
+        return hashlib.sha256(str(self.index)
+         + self.previousHash 
+         + str(self.data)
+         + self.timestamp).hexdigest()
 
     def isValid(self):
         return self.hash == self.calculateHash()
@@ -29,11 +32,9 @@ class Block:
                 +"\n---------------")
 
 class BlockChain:
-    def __init__(self):
-        self.chain = [self.createGenesisBlock()]
-
-    def createGenesisBlock(self):
-        return Block(0, "Genesis Block")
+    def __init__(self, file="blochchain.blockchain"):
+        self.chain = [Block(0, "Origin")]
+        self.file=file
 
     def getLatestBlock(self):
         return self.chain[len(self.chain)-1]
@@ -57,13 +58,12 @@ class BlockChain:
 
     def save(self):
         if(self.isChainValid()):
-            with open("blochchain.blockchain", "w") as f:
-                f.write(self.printBlockChain())
+            with open(self.file, "w") as f:
+                f.write(json.dumps(self, default=lambda obj: obj.__dict__))
             return
         
         # delete file throw exception and request a new file from network
         raise ValueError('The blockchain is invalid!')
-
 
 def main():
     blockchain = BlockChain()
