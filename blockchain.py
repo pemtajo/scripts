@@ -3,6 +3,7 @@
 # encoding=UTF-8
 
 import json
+import os
 import hashlib
 import datetime
 
@@ -13,6 +14,10 @@ class Block:
         self.data = data
         self.previousHash = previousHash
         self.hash = self.calculateHash()
+
+    def update(self, dic):
+        self.__dict__=dic
+        return self
 
     def calculateHash(self):
         return hashlib.sha256(str(self.index)
@@ -65,19 +70,35 @@ class BlockChain:
         # delete file throw exception and request a new file from network
         raise ValueError('The blockchain is invalid!')
 
-def main():
-    blockchain = BlockChain()
-    blockchain.generateBlock("Hello World!")
-    blockchain.generateBlock(3)
-    blockchain.generateBlock({"account": "123123","amount": 100,"action": "buy"})
-    print(blockchain.printBlockChain())
-    print ("Chain valid? " + str(blockchain.isChainValid()))
-    blockchain.save()
+    def open(self):
+        # if(os.path.exists(str(file))):
+            with open(self.file) as f:
+                data = json.load(f)
+                self.__dict__ = data 
+                self.chain = [Block("","").update(dic) for dic in data["chain"]]
 
-    blockchain.chain[1].data = "Hello Darkness my old friend!"
-    print(blockchain.printBlockChain())
-    print ("Chain valid? " + str(blockchain.isChainValid()))
-    blockchain.save()
+def main():
+    teste = BlockChain()
+    teste.open()
+    print(teste.printBlockChain())
+
+    # blockchain = BlockChain()
+    # blockchain.generateBlock("Hello World!")
+    # blockchain.generateBlock(3)
+    # blockchain.generateBlock({"account": "123123","amount": 100,"action": "buy"})
+    # print(blockchain.printBlockChain())
+    # print ("Chain valid? " + str(blockchain.isChainValid()))
+    # blockchain.save()
+
+    # blockchain.chain[1].data = "Hello Darkness my old friend!"
+    # print(blockchain.printBlockChain())
+    # print ("Chain valid? " + str(blockchain.isChainValid()))
+    # blockchain.save()
+
+    # blockchain.open()
+    # print(teste.printBlockChain())
+    # print ("Chain valid? " + str(blockchain.isChainValid()))
+    # blockchain.save()
 
 if __name__ == '__main__':
     main()
