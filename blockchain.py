@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # coding=UTF-8
 # encoding=UTF-8
-
 import json
 import os
 import hashlib
@@ -86,11 +85,9 @@ def main():
     blockchain.chain[1].data = "Hello Darkness my old friend!"
     print(blockchain.printBlockChain())
     print ("Chain valid? " + str(blockchain.isChainValid()))
-    print("------------ save -------------")
     blockchain.save()
 
     test = BlockChain()
-    print("------------ open -------------")
     test.open()
     print(test.printBlockChain())
     print ("Chain valid? " + str(test.isChainValid()))
