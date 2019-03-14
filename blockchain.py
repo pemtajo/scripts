@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # coding=UTF-8
 # encoding=UTF-8
 
@@ -20,11 +20,11 @@ class Block:
         return self
 
     def calculateHash(self):
-        return hashlib.sha256(str(self.index)
-         + self.previousHash 
-         + str(self.data)
-         + self.timestamp).hexdigest()
-
+        return hashlib.sha256(str(self.index).encode('utf-8')
+        + self.previousHash.encode('utf-8') 
+        + str(self.data).encode('utf-8')
+        + self.timestamp.encode('utf-8')).hexdigest()
+        
     def isValid(self):
         return self.hash == self.calculateHash()
 
@@ -37,8 +37,8 @@ class Block:
                 +"\n---------------")
 
 class BlockChain:
-    def __init__(self, file="blochchain.blockchain"):
-        self.chain = [Block(0, "Origin")]
+    def __init__(self, file="block.chain"):
+        self.chain = [Block(0, "Genesis")]
         self.file=file
 
     def getLatestBlock(self):
@@ -63,42 +63,38 @@ class BlockChain:
 
     def save(self):
         if(self.isChainValid()):
-            with open(self.file, "w") as f:
+            with open(self.file, 'w') as f:
                 f.write(json.dumps(self, default=lambda obj: obj.__dict__))
             return
-        
-        # delete file throw exception and request a new file from network
-        raise ValueError('The blockchain is invalid!')
 
     def open(self):
-        # if(os.path.exists(str(file))):
+        if(os.path.exists(self.file)):
             with open(self.file) as f:
                 data = json.load(f)
                 self.__dict__ = data 
                 self.chain = [Block("","").update(dic) for dic in data["chain"]]
 
 def main():
-    teste = BlockChain()
-    teste.open()
-    print(teste.printBlockChain())
+    blockchain = BlockChain()
+    blockchain.generateBlock("Hello World!")
+    blockchain.generateBlock(3)
+    blockchain.generateBlock({"account": 123123, "mount": 100})
+    print(blockchain.printBlockChain())
+    print ("Chain valid? " + str(blockchain.isChainValid()))
+    blockchain.save()
 
-    # blockchain = BlockChain()
-    # blockchain.generateBlock("Hello World!")
-    # blockchain.generateBlock(3)
-    # blockchain.generateBlock({"account": "123123","amount": 100,"action": "buy"})
-    # print(blockchain.printBlockChain())
-    # print ("Chain valid? " + str(blockchain.isChainValid()))
-    # blockchain.save()
+    blockchain.chain[1].data = "Hello Darkness my old friend!"
+    print(blockchain.printBlockChain())
+    print ("Chain valid? " + str(blockchain.isChainValid()))
+    print("------------ save -------------")
+    blockchain.save()
 
-    # blockchain.chain[1].data = "Hello Darkness my old friend!"
-    # print(blockchain.printBlockChain())
-    # print ("Chain valid? " + str(blockchain.isChainValid()))
-    # blockchain.save()
-
-    # blockchain.open()
-    # print(teste.printBlockChain())
-    # print ("Chain valid? " + str(blockchain.isChainValid()))
-    # blockchain.save()
+    test = BlockChain()
+    print("------------ open -------------")
+    test.open()
+    print(test.printBlockChain())
+    print ("Chain valid? " + str(test.isChainValid()))
+    test.save()
 
 if __name__ == '__main__':
     main()
