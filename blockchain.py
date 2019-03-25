@@ -64,7 +64,8 @@ class BlockChain:
         if(self.isChainValid()):
             with open(self.file, 'w') as f:
                 f.write(json.dumps(self, default=lambda obj: obj.__dict__))
-            return
+        else:
+            print("Not saved the chain!")
 
     def open(self):
         if(os.path.exists(self.file)):
