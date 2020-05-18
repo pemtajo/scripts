@@ -2,8 +2,6 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-source /opt/bash-wakatime.sh
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -93,17 +91,8 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
 alias em='emacs -nw'
-alias work='/home/pedro/Development/work/scripts/work.sh'
-alias up_ng='/home/pedro/Development/work/scripts/start_docker_service.sh'
-alias organize_mp3='/home/pedro/Development/scripts/organizemp3.py'
-alias mvn='/opt/apache/apache-maven-3.1.1/bin/mvn'
-alias pandoise='sudo pandoise'
-alias jpatchaca='/home/pedro/Development/scripts/jnlp.sh -noclear /opt/jpatchacabuild.jnlp'
 alias atualizar='sudo apt-get update && sudo apt-get upgrade'
-alias eclipse='sudo /opt/eclipse_luna/eclipse'
-alias criar_mvn='/home/pedro/Development/work/scripts/criar_mvn.sh'
 alias itsme='sudo chown -c -R pedro:root /*'
-alias python='/usr/bin/python3.6'
 
 # My commands
 export JAVA6_HOME=/opt/jdk/jdk1.6.0_38
