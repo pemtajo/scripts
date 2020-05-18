@@ -91,8 +91,15 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
 alias em='emacs -nw'
-alias atualizar='sudo apt-get update && sudo apt-get upgrade'
 alias itsme='sudo chown -c -R pedro:root /*'
+alias atualizar='sudo aptitude update && sudo aptitude upgrade'
+alias consertar='sudo apt --fix-broken install'
+alias sobePorra='docker-compose up'
+alias resetaBase='sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all'
+# alias sobePorra='docker-compose up --build --force-recreate'
+alias runTests='docker-compose up --abort-on-container-exit --exit-code-from tests'
+alias clearDocker='docker system prune -a'
+alias minify='gulp minify_all'
 
 # My commands
 export JAVA6_HOME=/opt/jdk/jdk1.6.0_38
