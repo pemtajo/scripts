@@ -29,7 +29,7 @@ def getFather(tag, tags):
     for t in tags:
         number_father = t["name"].split()[0]
         if number_father == number:
-            return t["id"]
+            return t
     else:
         return None
 
@@ -58,8 +58,25 @@ def getTasks():
     ]
 
 
-tasks = getTasks()
-tags = getTags()
+def addTagToTask(tag, task):
+    text = "/tasks/%s/tags/%s" % (task["id"], tag["id"])
+    r = requests.post(url=BASE_URL + text, headers=getHeader())
+    print("add tag %s in task %s" % (tag["name"], task["text"]))
+    if tag.get("father", None):
+        addTagToTask(tag["father"], task)
 
 
-print(json.dumps(tags, indent=3))
+def normalizeTasks(tags, tasks):
+    for task in tasks:
+        for tag in tags:
+            if (
+                tag.get("unicode", None)
+                and tag["unicode"] in task["text"]
+                and not tag["id"] in task["tags"]
+            ):
+                addTagToTask(tag, task)
+    pass
+
+
+if __name__ == "__main__":
+    normalizeTasks(getTags(), getTasks())
