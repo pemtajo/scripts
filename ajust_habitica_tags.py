@@ -66,7 +66,7 @@ def addTagToTask(tag, task):
         addTagToTask(tag["father"], task)
 
 
-def normalizeTasks(tags, tasks):
+def normalizeTasksTags(tags, tasks):
     for task in tasks:
         for tag in tags:
             if (
@@ -75,8 +75,27 @@ def normalizeTasks(tags, tasks):
                 and not tag["id"] in task["tags"]
             ):
                 addTagToTask(tag, task)
-    pass
+
+
+def normalizeTasksText(tags, tasks):
+    map_tags = {tag["id"]: tag["unicode"] for tag in tags if tag["unicode"]}
+    for task in tasks:
+        new_text = task["text"]
+        unicodes = [
+            map_tags[id_tag] for id_tag in task["tags"] if id_tag and id_tag in map_tags
+        ]
+        for uni in unicodes:
+            new_text = new_text.replace(uni, "")
+        new_text = " ".join(["".join(unicodes).strip(), new_text.strip()]).strip()
+        if new_text != task["text"]:
+            r = requests.put(
+                url="%s/tasks/%s" % (BASE_URL, task["id"]),
+                headers=getHeader(),
+                json={"text": new_text},
+            )
+            print("rename %s to %s" % (task["text"], new_text))
 
 
 if __name__ == "__main__":
-    normalizeTasks(getTags(), getTasks())
+    normalizeTasksTags(getTags(), getTasks())
+    normalizeTasksText(getTags(), getTasks())
