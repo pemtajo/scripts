@@ -7,8 +7,33 @@ import time
 import datetime
 import requests
 import json
+import logging
 
 BASE_URL = "https://habitica.com/api/v3"
+
+log.info("------- STARTED  ---------")
+
+
+class Log:
+    def __init__(self, name="ajust"):
+        self.looger = logging.getLogger(name)
+        self.looger.setLevel(logging.INFO)
+
+        formatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        )
+        handlerFile = logging.FileHandler(os.getenv("HABITICA_LOG_AJUST"))
+        handlerFile.setFormatter(formatter)
+        self.looger.addHandler(handlerFile)
+
+    def info(self, msg):
+        self.looger.info(msg)
+
+    def error(self, msg):
+        self.looger.error(msg)
+
+
+log = Log()
 
 
 def getHeader():
@@ -61,12 +86,13 @@ def getTasks():
 def addTagToTask(tag, task):
     text = "/tasks/%s/tags/%s" % (task["id"], tag["id"])
     r = requests.post(url=BASE_URL + text, headers=getHeader())
-    print("add tag %s in task %s" % (tag["name"], task["text"]))
+    log.info("add tag %s in task %s" % (tag["name"], task["text"]))
     if tag.get("father", None):
         addTagToTask(tag["father"], task)
 
 
 def normalizeTasksTags(tags, tasks):
+    log.info("------- START NORMALIZE TASKS TAG ---------")
     for task in tasks:
         for tag in tags:
             if (
@@ -75,9 +101,11 @@ def normalizeTasksTags(tags, tasks):
                 and not tag["id"] in task["tags"]
             ):
                 addTagToTask(tag, task)
+    log.info("------- END NORMALIZE TASKS TAG ---------")
 
 
 def normalizeTasksText(tags, tasks):
+    log.info("------- START NORMALIZE TASKS NAME ---------")
     map_tags = {tag["id"]: tag["unicode"] for tag in tags if tag["unicode"]}
     for task in tasks:
         new_text = task["text"]
@@ -93,9 +121,13 @@ def normalizeTasksText(tags, tasks):
                 headers=getHeader(),
                 json={"text": new_text},
             )
-            print("rename %s to %s" % (task["text"], new_text))
+            log.info("rename %s to %s" % (task["text"], new_text))
+
+    log.info("------- END NORMALIZE TASKS NAME ---------")
 
 
 if __name__ == "__main__":
+    log.info("------- START---------")
     normalizeTasksTags(getTags(), getTasks())
     normalizeTasksText(getTags(), getTasks())
+    log.info("------- END ---------")

@@ -5,3 +5,4 @@
 blochchain\.blockchain
 
 *.chain
+.log
