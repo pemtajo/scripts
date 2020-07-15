@@ -9,9 +9,8 @@ import requests
 import json
 import logging
 
-BASE_URL = "https://habitica.com/api/v3"
 
-log.info("------- STARTED  ---------")
+BASE_URL = "https://habitica.com/api/v3"
 
 
 class Log:
@@ -127,7 +126,10 @@ def normalizeTasksText(tags, tasks):
 
 
 if __name__ == "__main__":
-    log.info("------- START---------")
-    normalizeTasksTags(getTags(), getTasks())
-    normalizeTasksText(getTags(), getTasks())
-    log.info("------- END ---------")
+    try:
+        log.info("------- START---------")
+        normalizeTasksTags(getTags(), getTasks())
+        normalizeTasksText(getTags(), getTasks())
+        log.info("------- END ---------")
+    except Exception as ex:
+        log.error("ERROR: %s" % ex)
