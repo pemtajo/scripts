@@ -91,7 +91,6 @@ def addTagToTask(tag, task, tags):
 
 
 def normalizeTasksTags(tags, tasks):
-    log.info("------- START NORMALIZE TASKS TAG ---------")
     for task in tasks:
         for tag in tags:
             if (
@@ -100,11 +99,9 @@ def normalizeTasksTags(tags, tasks):
                 and not tag["id"] in task["tags"]
             ):
                 addTagToTask(tag, task, {tag["id"]: tag for tag in tags})
-    log.info("------- END NORMALIZE TASKS TAG ---------")
 
 
 def normalizeTasksText(tags, tasks):
-    log.info("------- START NORMALIZE TASKS NAME ---------")
     map_tags = {tag["id"]: tag["unicode"] for tag in tags if tag["unicode"]}
     for task in tasks:
         new_text = task["text"]
@@ -121,8 +118,6 @@ def normalizeTasksText(tags, tasks):
                 json={"text": new_text},
             )
             log.info("rename %s to %s" % (task["text"], new_text))
-
-    log.info("------- END NORMALIZE TASKS NAME ---------")
 
 
 if __name__ == "__main__":
